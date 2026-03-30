@@ -275,44 +275,44 @@ function toggleE(e){var a=S.expectativas.indexOf(e)>=0?S.expectativas.filter(fun
 async function submitForm(){
   setState({sending:true});
   var n=bumpCount();
-  var payload={
-    timestamp:new Date().toLocaleString("pt-BR"),
-    protocolo:S.proto,
-    dia:S.dia,
-    nome:S.anonimo?"anônimo(a)":(S.nome||"não informado"),
-    email:S.anonimo?"anonimo@radar-csi.nubank":(S.email||"anonimo@radar-csi.nubank"),
-    estrelas:S.estrelas,
-    disponibilidade:S.disponibilidade,
-    impressao:S.impressao,
-    fortes:S.fortes.join(", "),
-    nps:S.nps!==null?S.nps:"",
-    recado:S.recado,
-    confianca:S.confianca!==null?S.confianca:"",
-    expectativas:S.expectativas.join(", "),
-    textolivre:S.textolivre
-  };
+  var params=new URLSearchParams();
+  params.append("timestamp",new Date().toLocaleString("pt-BR"));
+  params.append("protocolo",S.proto);
+  params.append("dia",S.dia);
+  params.append("nome",S.anonimo?"anônimo(a)":(S.nome||"não informado"));
+  params.append("_replyto","sam.torelli@nubank.com.br");
+  params.append("email_respondente",S.anonimo?"anônimo(a)":(S.email||"não informado"));
+  params.append("estrelas",String(S.estrelas));
+  params.append("disponibilidade",S.disponibilidade);
+  params.append("impressao",S.impressao||"");
+  params.append("fortes",S.fortes.join(", "));
+  params.append("nps",S.nps!==null?String(S.nps):"não respondido");
+  params.append("recado",S.recado||"");
+  params.append("confianca",S.confianca!==null?String(S.confianca):"não respondido");
+  params.append("expectativas",S.expectativas.join(", ")||"nenhuma");
+  params.append("textolivre",S.textolivre||"");
   try{
     var response=await fetch("https://formspree.io/f/maqlonjg",{
       method:"POST",
-      headers:{"Accept":"application/json","Content-Type":"application/json"},
-      body:JSON.stringify(payload)
+      headers:{"Accept":"application/json"},
+      body:params
     });
     if(!response.ok){
       var errData={};
       try{errData=await response.json();}catch(e){}
-      console.error("Formspree error:",response.status,errData);
+      var errMsg=(errData.errors&&errData.errors.length>0?errData.errors.map(function(e){return e.message||e.field;}).join(", "):null)||errData.error||("erro "+response.status);
+      console.error("Formspree erro:",response.status,errData);
       setState({sending:false});
-      var msg=errData.error||("erro "+response.status+": tente novamente em instantes.");
-      alert("⚠️ Não foi possível enviar o feedback.\n"+msg);
+      alert("⚠️ Não foi possível enviar o feedback.\n"+errMsg+"\nTente novamente em instantes.");
       return;
     }
     setState({sending:false,step:"done",countResult:n});
     confetti();
   }
   catch(err){
-    console.error("Formspree fetch falhou:",err);
+    console.error("Formspree erro de rede:",err);
     setState({sending:false});
-    alert("⚠️ Não foi possível enviar o feedback.\nVerifique sua conexão e tente novamente.");
+    alert("⚠️ Erro de conexão ao enviar o feedback.\nVerifique sua internet e tente novamente.");
   }
 }
 
