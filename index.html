@@ -292,15 +292,28 @@ async function submitForm(){
     textolivre:S.textolivre
   };
   try{
-    await fetch("https://formspree.io/f/maqlonjg",{
+    var response=await fetch("https://formspree.io/f/maqlonjg",{
       method:"POST",
       headers:{"Accept":"application/json","Content-Type":"application/json"},
       body:JSON.stringify(payload)
     });
+    if(!response.ok){
+      var errData={};
+      try{errData=await response.json();}catch(e){}
+      console.error("Formspree error:",response.status,errData);
+      setState({sending:false});
+      var msg=errData.error||("erro "+response.status+": tente novamente em instantes.");
+      alert("⚠️ Não foi possível enviar o feedback.\n"+msg);
+      return;
+    }
+    setState({sending:false,step:"done",countResult:n});
+    confetti();
   }
-  catch(err){console.warn("sheets:",err);}
-  setState({sending:false,step:"done",countResult:n});
-  confetti();
+  catch(err){
+    console.error("Formspree fetch falhou:",err);
+    setState({sending:false});
+    alert("⚠️ Não foi possível enviar o feedback.\nVerifique sua conexão e tente novamente.");
+  }
 }
 
 function renderDone(){
