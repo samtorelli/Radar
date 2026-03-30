@@ -265,9 +265,11 @@ async function submitForm(){
     expectativas:S.expectativas.join(", ")
   };
   try{
-    var params=new URLSearchParams();
-    Object.keys(payload).forEach(function(k){params.append(k,payload[k]);});
-    await fetch("https://formspree.io/f/maqlonjg",{method:"POST",headers:{"Accept":"application/json"},body:params});
+    await fetch("https://formspree.io/f/maqlonjg",{
+      method:"POST",
+      headers:{"Accept":"application/json","Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    });
   }
   catch(err){console.warn("sheets:",err);}
   setState({sending:false,step:"done"});
