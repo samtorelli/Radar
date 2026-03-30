@@ -280,7 +280,7 @@ async function submitForm(){
     protocolo:S.proto,
     dia:S.dia,
     nome:S.anonimo?"anônimo(a)":(S.nome||"não informado"),
-    email:S.anonimo?"":(S.email||""),
+    email:S.anonimo?"anonimo@radar-csi.nubank":(S.email||"anonimo@radar-csi.nubank"),
     estrelas:S.estrelas,
     disponibilidade:S.disponibilidade,
     impressao:S.impressao,
