@@ -16,10 +16,11 @@ nav{position:sticky;top:0;z-index:50;background:rgba(255,247,251,.92);backdrop-f
 .nav-step{font-size:11px;font-weight:700;color:#4f4253;background:#ecdeec;border-radius:999px;padding:4px 12px}
 main{padding:28px 20px 90px;max-width:580px;margin:0 auto}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:translateX(0)}}
 @keyframes pop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 @keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
 @keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
-.fade-up{animation:fadeUp .35s ease both}
+.fade-up{animation:slideIn .32s ease both}
 .progress-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#8a05be;display:block;margin-bottom:10px}
 .progress-bar{display:flex;gap:5px;height:5px;margin-bottom:24px}
 .progress-bar span{flex:1;border-radius:999px;transition:all .4s ease}
@@ -92,9 +93,11 @@ var FORTES=["clareza ao explicar","paciência e calma","disponibilidade real","f
 var EXPECTATIVAS=["mais tempo em casos práticos reais","mais pausas para tirar dúvidas na hora","explicação mais detalhada das ferramentas","mais contexto sobre a cultura do time","espaço pra errar sem pressão","exemplos reais de atendimento ao vivo","mais clareza sobre fluxos e processos","revisão dos erros do dia juntos"];
 var STAR_LABELS=["","sofrível 😬","meh 😐","ok 🙂","muito bom 😄","incrível 🤩"];
 var DISP=[{v:"sempre",l:"sim, sempre",e:"🟢"},{v:"quase",l:"quase sempre",e:"🟡"},{v:"às vezes",l:"às vezes fica difícil",e:"🟠"},{v:"raro",l:"raramente consegue",e:"🔴"}];
-var S={step:0,nome:"",anonimo:false,estrelas:0,disponibilidade:"",impressao:"",fortes:[],recado:"",nps:null,expectativas:[],sending:false,proto:newProto()};
+var S={step:0,nome:"",email:"",anonimo:false,dia:"",estrelas:0,disponibilidade:"",impressao:"",fortes:[],recado:"",nps:null,confianca:null,expectativas:[],textolivre:"",countResult:0,sending:false,proto:newProto()};
 
 function newProto(){return "#OB-"+(Math.floor(Math.random()*9000)+1000)+"-X";}
+function getCount(){try{return parseInt(localStorage.getItem('radar_n')||'0');}catch(e){return 0;}}
+function bumpCount(){try{var n=getCount()+1;localStorage.setItem('radar_n',n);return n;}catch(e){return 1;}}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function escA(s){return String(s||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'");}
 function npsLabel(){if(S.nps===null)return"";if(S.nps>=9)return"promotor 🚀";if(S.nps>=7)return"neutro 😐";return"crítico 🔴";}
@@ -114,9 +117,10 @@ function confetti(){
 }
 
 function progress(cur,tot){
+  var pct=Math.round((cur/tot)*100);
   var bars="";
   for(var i=0;i<tot;i++) bars+='<span style="background:'+(i<cur?"#8a05be":"#d3c1d5")+';opacity:'+(i<cur?1:.25)+'"></span>';
-  return '<span class="progress-label">passo '+cur+' de '+tot+'</span><div class="progress-bar">'+bars+'</div>';
+  return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span class="progress-label" style="margin-bottom:0">passo '+cur+' de '+tot+'</span><span style="font-size:11px;font-weight:800;color:#8a05be">'+pct+'% concluído</span></div><div class="progress-bar">'+bars+'</div>';
 }
 
 function render(){
@@ -147,7 +151,7 @@ function renderIntro(){
         '<div class="toggle-track'+(S.anonimo?" on":"")+'"><div class="toggle-thumb"></div></div>'+
         '<span class="toggle-label">'+(S.anonimo?"quero responder anônimo(a) 🕶️":"quero me identificar")+'</span>'+
       '</button>'+
-      (!S.anonimo?'<div class="input-wrap"><input type="text" placeholder="qual é o seu nome? 🌟" value="'+esc(S.nome)+'" oninput="S.nome=this.value"/></div>':"")+
+      (!S.anonimo?'<div class="input-wrap"><input type="text" placeholder="qual é o seu nome? 🌟" value="'+esc(S.nome)+'" oninput="S.nome=this.value"/></div><div class="input-wrap" style="margin-top:8px"><input type="email" placeholder="e-mail pra sam te responder (opcional) 📬" value="'+esc(S.email)+'" oninput="S.email=this.value"/></div>':"")+
     '</div>'+
     '<button class="btn-primary btn-full" onclick="setState({step:1})">começar o radar 🚀</button>'+
   '</div>';
@@ -168,13 +172,19 @@ function renderStep1(){
   return progress(1,3)+
     '<h1>como tá sendo ter o sam como seu better?</h1>'+
     '<p class="subtitle">seja sincero(a) — o feedback honesto é o que mais ajuda ele a evoluir 💜</p>'+
+    '<div style="margin-bottom:16px"><h2 style="font-weight:700;color:#201923;font-size:15px;margin-bottom:12px">sobre qual dia você está avaliando?</h2>'+
+    ['dia 1','dia 2','dia 3'].map(function(d){
+      return '<button class="radio-card'+(S.dia===d?" sel":"")+'" onclick="setState({dia:\''+d+'\'})">'+
+        '<span class="radio-card-label">'+d+'</span>'+
+        '<div class="radio-dot">'+(S.dia===d?"✓":"")+'</div></button>';
+    }).join("")+'</div>'+
     '<div class="card"><h2>nota geral pra experiência com ele</h2><p style="color:#4f4253;font-size:12px;margin-bottom:14px">1 estrela = sofrível · 5 estrelas = incrível</p>'+starsHtml+'</div>'+
     '<div style="margin-bottom:16px"><h2 style="font-weight:700;color:#201923;font-size:15px;margin-bottom:12px">ele está disponível quando você precisa?</h2>'+dispHtml+'</div>'+
     '<div class="card"><h2>primeira impressão em poucas palavras</h2><p>o que veio na cabeça primeiro quando você pensa no sam como better?</p>'+
     '<div class="input-wrap"><textarea rows="3" placeholder="pode falar à vontade... 💬" oninput="S.impressao=this.value">'+esc(S.impressao)+'</textarea></div></div>'+
     '<div class="btn-row">'+
       '<button class="btn-secondary" onclick="setState({step:0})">← voltar</button>'+
-      '<button class="btn-primary" onclick="canGoStep2()" '+(canNext?"":"disabled")+'>próximo →</button>'+
+      '<button class="btn-primary" onclick="canGoStep2()" '+(S.estrelas>0&&S.disponibilidade&&S.dia?"":"disabled")+'>próximo →</button>'+
     '</div>';
 }
 
@@ -187,7 +197,7 @@ function hoverS(n){
   var lbl=document.getElementById("slbl");
   if(lbl)lbl.textContent=n>0?STAR_LABELS[n]:(S.estrelas>0?STAR_LABELS[S.estrelas]:"");
 }
-function canGoStep2(){if(S.estrelas>0&&S.disponibilidade)setState({step:2});}
+function canGoStep2(){if(S.estrelas>0&&S.disponibilidade&&S.dia)setState({step:2});}
 
 function renderStep2(){
   var fortesHtml=FORTES.map(function(f){
@@ -238,6 +248,12 @@ function renderStep3(){
     '<h1>o que poderia ter sido melhor nesses 3 dias?</h1>'+
     '<p class="subtitle">seleciona o que sentiu falta ou poderia ter tido mais espaço durante o acompanhamento.</p>'+
     '<div class="tags">'+expHtml+'</div>'+
+    '<div class="card"><h2>o quanto você se sentiu à vontade pra ser honesto(a)?</h2>'+
+    '<p style="color:#4f4253;font-size:12px;margin-bottom:14px">0 = travei um pouco · 10 = falei tudo que queria</p>'+
+    '<div class="nps-grid">'+Array.from({length:11},function(_,i){return '<button class="nps-btn'+(S.confianca===i?" sel":"")+'" onclick="setState({confianca:'+i+'})">'+i+'</button>';}).join("")+'</div>'+
+    '<div class="nps-extremes"><span>não me senti confortável</span><span>100% à vontade</span></div></div>'+
+    '<div class="card"><h2>algo mais que queira compartilhar? <span style="font-weight:500;font-size:12px;color:#8a05be">(opcional)</span></h2>'+
+    '<div class="input-wrap"><textarea rows="3" placeholder="espaço livre pra qualquer coisa que você queira falar... 💬" oninput="S.textolivre=this.value">'+esc(S.textolivre)+'</textarea></div></div>'+
     '<div class="hint-box"><span style="font-size:22px;flex-shrink:0">💡</span>'+
       '<div><p style="font-weight:700;font-size:13px;color:#201923;margin-bottom:4px">sua voz importa de verdade</p>'+
       '<small style="font-size:12px;color:#4f4253;line-height:1.6">o sam usa esse radar pra se desenvolver como better. cada resposta vira ação real.</small></div></div>'+
@@ -253,17 +269,22 @@ function toggleE(e){var a=S.expectativas.indexOf(e)>=0?S.expectativas.filter(fun
 
 async function submitForm(){
   setState({sending:true});
+  var n=bumpCount();
   var payload={
     timestamp:new Date().toLocaleString("pt-BR"),
     protocolo:S.proto,
+    dia:S.dia,
     nome:S.anonimo?"anônimo(a)":(S.nome||"não informado"),
+    email:S.anonimo?"":(S.email||""),
     estrelas:S.estrelas,
     disponibilidade:S.disponibilidade,
     impressao:S.impressao,
     fortes:S.fortes.join(", "),
     nps:S.nps!==null?S.nps:"",
     recado:S.recado,
-    expectativas:S.expectativas.join(", ")
+    confianca:S.confianca!==null?S.confianca:"",
+    expectativas:S.expectativas.join(", "),
+    textolivre:S.textolivre
   };
   try{
     await fetch("https://formspree.io/f/maqlonjg",{
@@ -273,7 +294,7 @@ async function submitForm(){
     });
   }
   catch(err){console.warn("sheets:",err);}
-  setState({sending:false,step:"done"});
+  setState({sending:false,step:"done",countResult:n});
   confetti();
 }
 
@@ -287,7 +308,11 @@ function renderDone(){
   return '<div style="text-align:center;padding-top:10px">'+
     '<div class="done-icon">🎉</div>'+
     '<h1 style="text-align:center;font-size:clamp(28px,6vw,40px)">'+(S.anonimo?"feedback enviado!":"obrigado, "+esc(nome)+"!")+'</h1>'+
-    '<p class="subtitle" style="text-align:center;max-width:380px;margin:12px auto 28px;font-size:14px">o sam vai receber seu radar e usar isso pra se tornar um better ainda melhor. você faz parte desse crescimento. 💜</p>'+
+    '<p class="subtitle" style="text-align:center;max-width:380px;margin:10px auto 14px;font-size:14px">o sam vai receber seu radar e usar isso pra se tornar um better ainda melhor. você faz parte desse crescimento. 💜</p>'+
+    (S.countResult>0?'<div style="background:#f7d8ff;border-radius:999px;padding:6px 18px;display:inline-block;font-size:12px;font-weight:700;color:#670090;margin-bottom:10px">🎯 você é o nuvinho #'+S.countResult+' a responder neste dispositivo</div><br>':'')+
+    (S.nps>=9?'<div style="background:#e8f8ef;border-radius:10px;padding:10px 16px;display:inline-block;font-size:12px;font-weight:600;color:#1a7a4a;margin-bottom:20px">🚀 você é um(a) promotor(a) — o sam agradece de verdade!</div>':
+     S.nps>=7?'<div style="background:#fff8e1;border-radius:10px;padding:10px 16px;display:inline-block;font-size:12px;font-weight:600;color:#a06000;margin-bottom:20px">😐 nota neutra — o que faltaria pra chegar no 10?</div>':
+     S.nps!==null?'<div style="background:#f7d8ff;border-radius:10px;padding:10px 16px;display:inline-block;font-size:12px;font-weight:600;color:#670090;margin-bottom:20px">💜 feedback crítico é o mais valioso — obrigado pela honestidade.</div>':'')+
   '</div>'+
   '<div class="done-grid">'+
     '<div class="card" style="margin:0"><span class="card-label">nota geral</span><div>'+starsHtml+'</div></div>'+
@@ -299,19 +324,23 @@ function renderDone(){
     '</div>'+
   '</div>'+
   '<div class="card" style="display:flex;align-items:center;gap:10px;margin-top:12px">'+
+    '<span class="card-label" style="margin-bottom:0;flex-shrink:0">dia avaliado</span>'+
+    '<span style="font-weight:600;font-size:13px;color:#201923">'+esc(S.dia)+'</span>'+
+  '</div>'+
+  '<div class="card" style="display:flex;align-items:center;gap:10px;margin-top:12px">'+
     '<span class="card-label" style="margin-bottom:0;flex-shrink:0">disponibilidade</span>'+
     '<span style="font-weight:600;font-size:13px;color:#201923">'+esc(S.disponibilidade)+'</span>'+
   '</div>'+
   (S.fortes.length>0?'<div class="card"><span class="card-label">pontos fortes destacados</span><div>'+fortesChips+'</div></div>':"")+
   (S.recado?'<div style="background:linear-gradient(135deg,#f7d8ff,#feeffd);border:1px solid rgba(234,178,255,.6);border-radius:14px;padding:18px 20px;margin-bottom:14px"><span class="card-label">recado pro sam 💌</span><p style="font-style:italic;color:#201923;font-size:13px;line-height:1.6;margin:0">&ldquo;'+esc(S.recado)+'&rdquo;</p></div>':"")+
   (S.expectativas.length>0?'<div class="card"><span class="card-label">o que poderia ter sido melhor</span><div>'+expChips+'</div></div>':"")+
-  '<div style="text-align:center;font-size:11px;color:#4f4253;opacity:.45;font-weight:600;margin-bottom:28px">'+esc(S.proto)+'</div>'+
+  '<div style="display:none">'+esc(S.proto)+'</div>'+
   '<button class="btn-primary btn-full" onclick="resetForm()">enviar novo feedback ✨</button>'+
   '<div class="footer-note">feito com 💜 pelo radar · better csi · nubank</div>';
 }
 
 function resetForm(){
-  S={step:0,nome:"",anonimo:false,estrelas:0,disponibilidade:"",impressao:"",fortes:[],recado:"",nps:null,expectativas:[],sending:false,proto:newProto()};
+  S={step:0,nome:"",email:"",anonimo:false,dia:"",estrelas:0,disponibilidade:"",impressao:"",fortes:[],recado:"",nps:null,confianca:null,expectativas:[],textolivre:"",countResult:0,sending:false,proto:newProto()};
   render();
 }
 
