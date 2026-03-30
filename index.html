@@ -264,7 +264,7 @@ async function submitForm(){
     recado:S.recado,
     expectativas:S.expectativas.join(", ")
   };
-  try{await fetch(APPS_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify(payload)});}
+  try{var params=new URLSearchParams();params.append("data",JSON.stringify(payload));await fetch(APPS_SCRIPT_URL,{method:"POST",mode:"no-cors",body:params});}
   catch(err){console.warn("sheets:",err);}
   setState({sending:false,step:"done"});
   confetti();
