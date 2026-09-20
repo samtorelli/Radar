@@ -10,7 +10,12 @@ Prova o fluxo: **perceber um risco → investigar → agir → registrar → pas
 
 ---
 
-## Como rodar
+## Ver sem instalar nada (arquivo único)
+
+Baixe **`central-da-roxinha.html`** e abra com **duplo clique** — CSS, JS e fontes
+embutidos, sem servidor. Para regenerar: `npm run build`.
+
+## Como rodar (versão em pastas)
 
 Sem build. Vanilla JS (ES modules) + servidor estático de arquivos.
 

@@ -8,11 +8,15 @@
     "start": "node server.js",
     "dev": "node server.js",
     "serve": "node server.js",
+    "build": "node scripts/build-standalone.mjs",
     "validate": "node scripts/validate.mjs",
     "test": "node scripts/validate.mjs"
   },
   "engines": {
     "node": ">=18"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "esbuild": "^0.23.1"
+  }
 }
