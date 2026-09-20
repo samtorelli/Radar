@@ -1,0 +1,114 @@
+/* =========================================================================
+   Central da Roxinha — tokens PJ
+   Camada sobre o Nubank Design System (colors_and_type.css).
+   Importe DEPOIS de colors_and_type.css.
+
+   Regra: nada aqui inventa hue nova. Os tokens de status são
+   escurecimentos das rampas do DS, criados para passar contraste
+   AA em texto pequeno sobre fundo claro (o DS só define os tons claros,
+   que reprovam em 12–13px).
+   ========================================================================= */
+
+@font-face { font-family: "Nu Sans Display"; src: url("../fonts/NuSansDisplay-Light.otf")    format("opentype"); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: "Nu Sans Display"; src: url("../fonts/NuSansDisplay-Regular.otf")  format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Nu Sans Display"; src: url("../fonts/NuSansDisplay-Medium.otf")   format("opentype"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Nu Sans Display"; src: url("../fonts/NuSansDisplay-Semibold.otf") format("opentype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Nu Sans Text";    src: url("../fonts/NuSansText-Regular.otf")     format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Nu Sans Text";    src: url("../fonts/NuSansText-Italic.otf")      format("opentype"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Nu Sans Text";    src: url("../fonts/NuSansText-Medium.otf")      format("opentype"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Nu Sans Text";    src: url("../fonts/NuSansText-Semibold.otf")    format("opentype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Nu Sans Text";    src: url("../fonts/NuSansText-Bold.otf")        format("opentype"); font-weight: 700; font-style: normal; font-display: swap; }
+
+:root {
+  /* ---- Superfícies ---- */
+  --pj-bg:              #F4F1E9;  /* areia levemente mais quente que o Sand */
+  --pj-surface:         #FFFFFF;
+  --pj-surface-muted:   #FBF9F4;  /* cabeçalho de tabela, campos, hover     */
+  --pj-surface-deep:    #1E002F;  /* UV Purple: cards editoriais e toast    */
+  --pj-sidebar:         rgba(240, 231, 252, 0.72); /* + backdrop-filter: blur(20px) */
+
+  /* ---- Tinta ---- */
+  --pj-ink-1:           #221C26;  /* texto primário (grafite arroxeado)     */
+  --pj-ink-2:           #5A5852;
+  --pj-ink-3:           #7C7A72;
+  --pj-ink-4:           #9E9B92;  /* só para metadados ≥ 11px               */
+
+  /* ---- Marca ---- */
+  --pj-purple:          #8D0DE3;  /* Core Purple — AÇÃO. Botões, links, ativo */
+  --pj-purple-strong:   #6E08B3;  /* hover de ação e texto roxo sobre claro  */
+  --pj-purple-deep:     #4E0683;  /* texto sobre lavanda                     */
+  --pj-purple-uv:       #1E002F;
+  --pj-lavender:        #ECDFFF;  /* Purple 100 — chip ativo, avatar         */
+  --pj-lavender-200:    #F3EDFB;
+  --pj-lavender-300:    #CBA5FD;  /* Purple 300 — bordas ativas              */
+
+  /* ---- Bordas ---- */
+  --pj-border:          #E7E2D6;
+  --pj-border-strong:   #E1DBCC;
+  --pj-border-purple:   #DFCFF6;  /* divisórias na sidebar                   */
+
+  /* ---- Status: texto (AA em 12px sobre claro) ---- */
+  --pj-ok:              #3E7A23;
+  --pj-warn:            #8C5A0E;
+  --pj-danger:          #A8202A;
+  --pj-info:            #2940A8;
+
+  /* ---- Status: fundo ---- */
+  --pj-ok-soft:         #EAF5DF;
+  --pj-warn-soft:       #FBEFD0;
+  --pj-danger-soft:     #FDE7E7;
+  --pj-info-soft:       #E6ECFE;
+
+  /* ---- Status: dot / indicador (não usar em texto) ---- */
+  --pj-ok-dot:          #6FB344;
+  --pj-warn-dot:        #F0C26C;
+  --pj-danger-dot:      #F49E9E;
+  --pj-info-dot:        #6680F3;
+
+  /* ---- Códigos da timeline do DIM ---- */
+  --pj-tl-atendimento:  #8D0DE3;
+  --pj-tl-cobertura:    #B6C3FB;
+  --pj-tl-pausa:        #F0C26C;
+  --pj-tl-fora:         #EDEAE1;
+  --pj-tl-fora-border:  #E3DFD4;
+  --pj-tl-take:         #85D1BD;
+  --pj-tl-ferias:       #E5D8BD;
+  --pj-tl-ausencia:     #F49E9E;
+  --pj-tl-pendente:     #ECDFFF;
+  --pj-tl-pendente-bd:  #CBA5FD;
+
+  /* ---- Heatmap de cobertura (5 níveis) ---- */
+  --pj-heat-0:          #F6F3EC;
+  --pj-heat-1:          #F1EAFB;
+  --pj-heat-2:          #DCC2FF;
+  --pj-heat-3:          #B27BFB;
+  --pj-heat-4:          #8D0DE3;
+  --pj-heat-5:          #4E0683;
+
+  /* ---- Tipografia ---- */
+  --pj-font-display:    "Nu Sans Display", system-ui, sans-serif;
+  --pj-font-text:       "Nu Sans Text", system-ui, sans-serif;
+
+  /* ---- Raio ---- */
+  --pj-r-chip:          999px;
+  --pj-r-cell:          3px;
+  --pj-r-sm:            8px;
+  --pj-r-field:         10px;
+  --pj-r-nav:           9px;
+  --pj-r-card-sm:       12px;
+  --pj-r-card:          14px;
+  --pj-r-card-lg:       16px;
+  --pj-r-modal:         18px;
+
+  /* ---- Elevação ---- */
+  --pj-shadow-drawer:   -24px 0 48px rgba(30, 0, 47, 0.14);
+  --pj-shadow-modal:    0 24px 64px rgba(30, 0, 47, 0.24);
+  --pj-shadow-toast:    0 16px 40px rgba(30, 0, 47, 0.30);
+  --pj-scrim:           rgba(30, 0, 47, 0.28);
+
+  /* ---- Movimento (Nu: sem bounce, sem overshoot) ---- */
+  --pj-ease:            cubic-bezier(0.7, 0, 0.15, 1);
+  --pj-dur-fast:        140ms;
+  --pj-dur:             180ms;
+  --pj-dur-slow:        280ms;
+}

@@ -1,0 +1,14 @@
+/* =========================================================================
+   Nubank Design System — root entry point
+   --------------------------------------------------------------------------
+   Single stylesheet consumers should link. It pulls in the canonical brand
+   foundation (colors, type, tokens, element defaults).
+
+   Scoped sub-systems are NOT imported here on purpose — they ship their own
+   fonts/tokens for a specific surface and would otherwise shadow the global
+   foundation:
+     • ui_kits/nu-deck/nu-deck.css    — Masterbrand presentation layout
+   Link those directly only when building on that specific surface.
+   ========================================================================= */
+
+@import "colors_and_type.css";

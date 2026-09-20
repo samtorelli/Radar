@@ -1,0 +1,364 @@
+/* =========================================================================
+   Nubank Design System — Colors & Type
+   Source: Nubank Brand Guidelines 2026 (Global, Confidential)
+   --------------------------------------------------------------------------
+   Tokens here come directly from the brand book. Do not invent new colors
+   or gradients. Do not add new font styles.
+
+   Type hierarchy (from page 95 "Hierarchy"):
+     H1  — Nu Sans Display Semibold,  tracking -3%,  line-height 90%
+     H2  — Nu Sans Display Medium,    tracking -2%,  line-height 100%
+     P   — Nu Sans Text  Regular,     tracking 0%,   line-height 120%
+     B   — Nu Sans Text  Semibold,    tracking 0%,   line-height 100%   (buttons)
+     A   — Nu Sans Text  Medium,      tracking 0%,   line-height 100%   (annotations)
+
+   Width rule: use the Neutral width only, until further guidance.
+   ========================================================================= */
+
+
+/* ---------- FONTS ------------------------------------------------------- */
+
+
+
+
+
+
+:root {
+  /* ====================================================================
+     COLOR — PRIMARY PALETTE  (Brand Guidelines, p. 70–72)
+     ==================================================================== */
+  --core-purple:      #8D0DE3;   /* Core Nu Purple — the iconic anchor    */
+  --uv-purple:        #1E002F;   /* UV Purple — premium / Ultravioleta    */
+  --sand:             #F3EFE6;   /* Sand — replaces pure white as bg      */
+  --purple-100:       #ECDFFF;   /* Soft purple tint                       */
+  --purple-300:       #CBA5FD;   /* Mid purple tint                        */
+  --white:            #FFFFFF;
+  --black:            #000000;
+
+  /* ====================================================================
+     COLOR — SECONDARY PALETTE (p. 72)
+     Energy, warmth and humanity. Use thoughtfully, not for typography.
+     ==================================================================== */
+  --light-blue:       #8DCDE2;
+  --blue:             #96B0FD;
+  --tan:              #E5D8BD;
+  --yellow:           #EEEDB3;
+  --pink:             #DA9AC7;
+  --green:            #A7D296;
+  --rose-gold:        #E9A6A7;
+  --teal:             #85D1BD;
+
+  /* ====================================================================
+     COLOR — EXTENDED PALETTE (p. 77)
+     A 10-stop ramp per hue for product surfaces & illustration.
+     Stops are derived to match the brand book's perceived progression
+     (Core Purple sits between 600 and 700 on the purple ramp).
+     ==================================================================== */
+
+  /* Grey ramp — workhorse for product UI */
+  --grey-100:  #F6F5F2;
+  --grey-200:  #EAE8E2;
+  --grey-300:  #D7D4CC;
+  --grey-400:  #BDBAB1;
+  --grey-500:  #9E9B92;
+  --grey-600:  #7C7A72;
+  --grey-700:  #5A5852;
+  --grey-800:  #3D3C38;
+  --grey-900:  #25241F;
+  --grey-1000: #0E0D0B;
+
+  /* Purple ramp — anchored on Core Purple */
+  --purple-100-x: #ECDFFF;
+  --purple-200:   #DCC2FF;
+  --purple-400:   #B27BFB;
+  --purple-500:   #9F49F0;
+  --purple-600:   #8D0DE3;   /* = Core Purple */
+  --purple-700:   #6E08B3;
+  --purple-800:   #4E0683;
+  --purple-900:   #2F0454;
+  --purple-1000:  #1E002F;   /* = UV Purple   */
+
+  /* Feedback ramps — minimal, only the stops product UI uses */
+  --red-100:  #FDE7E7;
+  --red-300:  #F49E9E;
+  --red-500:  #E54545;
+  --red-700:  #A8202A;
+  --red-900:  #560F18;
+
+  --green-100:  #EAF5DF;
+  --green-300:  #B7DD9F;
+  --green-500:  #6FB344;   /* "verde nu" — money in, success */
+  --green-700:  #3E7A23;
+  --green-900:  #1E3F10;
+
+  --amber-100:  #FBEFD0;
+  --amber-300:  #F0C26C;
+  --amber-500:  #D89322;
+  --amber-700:  #8C5A0E;
+
+  --blue-100:  #E6ECFE;
+  --blue-300:  #B6C3FB;
+  --blue-500:  #6680F3;
+  --blue-700:  #2940A8;
+
+  /* ====================================================================
+     SEMANTIC TOKENS — what to actually use in product
+     Sand is the warm replacement for pure white as a default background.
+     ==================================================================== */
+  --bg:               var(--sand);
+  --bg-card:          var(--white);
+  --bg-inverse:       var(--core-purple);
+  --bg-premium:       var(--uv-purple);
+
+  --fg-1:             var(--grey-1000);    /* primary text on light       */
+  --fg-2:             var(--grey-700);     /* secondary                   */
+  --fg-3:             var(--grey-500);     /* tertiary, annotations       */
+  --fg-on-purple:     var(--white);
+  --fg-on-premium:    var(--white);
+  --fg-link:          var(--core-purple);  /* type-on-color rule, p. 95   */
+
+  --border:           var(--grey-200);
+  --border-strong:    var(--grey-300);
+  --divider:          var(--grey-200);
+
+  --success:          var(--green-500);
+  --success-soft:     var(--green-100);
+  --danger:           var(--red-500);
+  --danger-soft:      var(--red-100);
+  --warning:          var(--amber-500);
+  --warning-soft:     var(--amber-100);
+  --info:             var(--blue-500);
+  --info-soft:        var(--blue-100);
+
+  /* ====================================================================
+     TYPE — FAMILIES (use Neutral width only, per p. 91)
+     ==================================================================== */
+  --font-display:     "Nu Sans Display", system-ui, -apple-system, sans-serif;
+  --font-display-cnd: "Nu Sans Display Cnd", "Nu Sans Display", system-ui, sans-serif;
+  --font-display-ext: "Nu Sans Display Ext", "Nu Sans Display", system-ui, sans-serif;
+  --font-text:        "Nu Sans Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono:        ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ====================================================================
+     TYPE — SIZES
+     Per brand book the system is fluid; these are sensible defaults
+     for product + marketing contexts. Display sizes can scale much
+     larger for "expressive" moments.
+     ==================================================================== */
+  --fs-display-3xl:   120px;   /* poster / OOH hero                       */
+  --fs-display-2xl:   88px;
+  --fs-display-xl:    64px;
+  --fs-display-lg:    48px;
+  --fs-display-md:    36px;
+  --fs-h1:            32px;    /* headline                                */
+  --fs-h2:            24px;    /* sub headline                            */
+  --fs-h3:            20px;
+  --fs-h4:            18px;
+  --fs-body-lg:       18px;
+  --fs-body:          16px;    /* paragraph                               */
+  --fs-body-sm:       14px;
+  --fs-caption:       13px;    /* annotation                              */
+  --fs-micro:         11px;
+
+  /* ====================================================================
+     TYPE — LINE-HEIGHT & TRACKING TOKENS (p. 95)
+     ==================================================================== */
+  --lh-display:       0.9;     /* @kind font */
+  --lh-tight:         1.0;     /* @kind font */
+  --lh-body:          1.2;     /* @kind font */
+  --lh-relaxed:       1.4;     /* @kind font */
+
+  --tr-display:       -0.03em; /* @kind font */
+  --tr-subhead:       -0.02em; /* @kind font */
+  --tr-normal:        0;       /* @kind font */
+  /* No "loose" tracking — brand book explicitly says don't track wide */
+
+  /* ====================================================================
+     SHAPE — borders & radii
+     The container ("nu" in a purple square) is the brand's primary
+     geometric signal. In product, pills + soft squares dominate.
+     ==================================================================== */
+  --radius-xs:        4px;
+  --radius-sm:        8px;
+  --radius-md:        12px;
+  --radius-lg:        16px;
+  --radius-xl:        24px;
+  --radius-2xl:       32px;
+  --radius-pill:      9999px;
+  --radius-container: 12.5%;   /* approximate "nu container" softness     */
+
+  /* ====================================================================
+     ELEVATION
+     Used sparingly — mostly for product widgets sitting on photography
+     ==================================================================== */
+  --shadow-sm:   0 1px 2px rgba(30, 0, 47, 0.06);
+  --shadow-md:   0 8px 24px rgba(30, 0, 47, 0.08);
+  --shadow-lg:   0 24px 48px rgba(30, 0, 47, 0.14);
+  --glass-bg:    rgba(255, 255, 255, 0.85);
+
+  /* ====================================================================
+     SPACE — 4px base
+     Margins on layouts: longest side / 28 (p. 107)
+     ==================================================================== */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+  --sp-32: 128px;
+
+  /* ====================================================================
+     MOTION (p. 197)
+     "Strong easing — up to 90% in / 90% out. No bounce. No decoration."
+     ==================================================================== */
+  --ease-nu:          cubic-bezier(0.7, 0, 0.15, 1);   /* @kind other */
+  --ease-out:         cubic-bezier(0.15, 0, 0, 1);     /* @kind other */
+  --ease-in:          cubic-bezier(0.7, 0, 1, 1);      /* @kind other */
+  --dur-fast:         180ms;                           /* @kind other */
+  --dur-base:         280ms;                           /* @kind other */
+  --dur-slow:         480ms;                           /* @kind other */
+}
+
+
+/* =========================================================================
+   ELEMENT DEFAULTS
+   ========================================================================= */
+
+html, body {
+  background: var(--bg);
+  color: var(--fg-1);
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Headlines (H1) — Display Semibold, -3% / 90% ---------------- */
+h1, .h1, .headline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tr-display);
+  color: var(--fg-1);
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* ---------- Sub-headlines (H2) — Display Medium, -2% / 100% ------------ */
+h2, .h2, .subhead {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-subhead);
+  color: var(--fg-1);
+  margin: 0;
+  text-wrap: balance;
+}
+
+h3, .h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-subhead);
+  color: var(--fg-1);
+  margin: 0;
+}
+
+h4, .h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-h4);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-subhead);
+  color: var(--fg-1);
+  margin: 0;
+}
+
+/* ---------- Display sizes (campaign / marketing hero) ------------------ */
+.display-3xl,
+.display-2xl,
+.display-xl,
+.display-lg,
+.display-md {
+  font-family: var(--font-display);
+  font-weight: 600;            /* Semibold — same as H1 */
+  line-height: var(--lh-display);
+  letter-spacing: var(--tr-display);
+  color: var(--fg-1);
+  margin: 0;
+  text-wrap: balance;
+}
+.display-3xl { font-size: var(--fs-display-3xl); }
+.display-2xl { font-size: var(--fs-display-2xl); }
+.display-xl  { font-size: var(--fs-display-xl);  }
+.display-lg  { font-size: var(--fs-display-lg);  }
+.display-md  { font-size: var(--fs-display-md);  }
+
+/* ---------- Paragraph — Nu Sans Text Regular, 120% --------------------- */
+p, .body, .paragraph {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: 0;
+  color: var(--fg-2);
+  margin: 0;
+  text-wrap: pretty;
+}
+.body-lg { font-size: var(--fs-body-lg); line-height: 1.35; }
+.body-sm { font-size: var(--fs-body-sm); }
+
+/* ---------- Annotation (A) — Nu Sans Text Medium, 100% ----------------- */
+.annotation {
+  font-family: var(--font-text);
+  font-weight: 500;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-tight);
+  letter-spacing: 0;
+  color: var(--fg-3);
+}
+
+/* ---------- Button (B) — Nu Sans Text Semibold, 100% ------------------- */
+.btn-text {
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--fs-body);
+  line-height: var(--lh-tight);
+  letter-spacing: 0;
+}
+
+/* ---------- Wordmark — Nu Sans Display, title case, no extra tracking -- */
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+a {
+  color: var(--fg-link);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Surface helpers ------------------------------------------- */
+.surface-sand       { background: var(--sand);        color: var(--fg-1); }
+.surface-white      { background: var(--white);       color: var(--fg-1); }
+.surface-purple     { background: var(--core-purple); color: var(--fg-on-purple); }
+.surface-purple-100 { background: var(--purple-100);  color: var(--core-purple); }
+.surface-purple-300 { background: var(--purple-300);  color: var(--core-purple); }
+.surface-uv         { background: var(--uv-purple);   color: var(--fg-on-premium); }
+.surface-black      { background: var(--black);       color: var(--white); }
